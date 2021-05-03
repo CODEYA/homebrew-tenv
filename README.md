@@ -14,6 +14,12 @@ $ brew install tenv
 $ echo 'eval "$(tenv init)"' >> ~/.zshrc
 ```
 
+### bash
+
+```bash
+$ echo 'eval "$(tenv init)"' >> ~/.profile
+```
+
 ## Configure
 
 Create a `.terminal-config` file in your directory.
@@ -27,9 +33,14 @@ Create a `.terminal-config` file in your directory.
 
 ## Supports
 
-### shell
+### OS
+
+- macOS
+
+### Shell
 
 - zsh
+- bash
 
 ### Terminal
 

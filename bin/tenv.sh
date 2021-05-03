@@ -3,6 +3,7 @@
 TENV_VERSION="0.0.1"
 TERMINAL_CONFIG_FILENAME=".terminal-config"
 TERMINAL_INITZSH_FILENAME="init/tenv-init.zsh"
+TERMINAL_INITBASH_FILENAME="init/tenv-init.bash"
 
 # *** set **********************************************************************
 getTargetDir() {
@@ -85,6 +86,20 @@ setTenv() {
 }
 
 # *** init *********************************************************************
+resolveShell() {
+  local shell="$(ps -p "$PPID" -o 'args=' 2>/dev/null || true)"
+  local shell="${shell%% *}"
+  local shell="${shell##-}"
+  local shell="${shell:-$SHELL}"
+  local shell="${shell##*/}"
+  if [ "$shell" = "sh" ]; then
+    local bashVer=$($(which sh) "--version" | grep "bash")
+    if [ -n "${bashVer}" ]; then
+      shell="bash"
+    fi
+  fi
+  echo -ne "${shell}"
+}
 resolveTenvHome() {
   local cwd="$(pwd)"
   local tenv=$(which tenv)
@@ -97,12 +112,17 @@ resolveTenvHome() {
   cd "${cwd}"
 }
 initTenv() {
-  local shell="$(basename "$SHELL")"
-  case "$shell" in
+  local shell="$(resolveShell)"
+  local tenvHome=$(resolveTenvHome)
+  case "${shell}" in
     zsh )
-      tenvHome=$(resolveTenvHome)
       cat << EOF
 source "${tenvHome}/../${TERMINAL_INITZSH_FILENAME}"
+EOF
+      ;;
+    bash )
+      cat << EOF
+source "${tenvHome}/../${TERMINAL_INITBASH_FILENAME}"
 EOF
       ;;
     *   ) ;;
