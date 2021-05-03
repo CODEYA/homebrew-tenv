@@ -2,8 +2,8 @@
 
 TENV_VERSION="0.0.1"
 TERMINAL_CONFIG_FILENAME=".terminal-config"
-TERMINAL_INITZSH_FILENAME="init/tenv-init.zsh"
-TERMINAL_INITBASH_FILENAME="init/tenv-init.bash"
+TERMINAL_INITZSH_FILENAME="libexec/tenv-init.zsh"
+TERMINAL_INITBASH_FILENAME="libexec/tenv-init.bash"
 
 # *** set **********************************************************************
 getTargetDir() {
